@@ -30,8 +30,13 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --local user.email "bad26123@gmail.com"
+          git config --local user.email "bad261203@gmail.com"
           git config --local user.name "DamBalDoor"
           git add README.md
-          git commit -m "Update TOC [skip ci]" || echo "No changes to commit"  # Коммитим изменения, если они есть
+          git commit -m "Update TOC [skip ci]" || echo "No changes to commit"
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Используем GitHub Token для аутентификации
+        run: |
           git push
