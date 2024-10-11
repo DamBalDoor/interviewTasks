@@ -139,7 +139,20 @@ async function countLines(filePath) {
 countLines('file.txt').then(console.log);
 ```
 
-#### 2. Node.js (Работа с объектами): 
+#### 2. Node.js (Асинхронная работа с файлами):
+Напишите асинхронную функцию, которая получает список всех файлов и папок в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
+```node.js
+const fs = require('fs').promises;
+const path = require('path');
+
+async function getFilesInDirectory(dirPath) {
+    // Ваш код
+}
+
+getFilesInDirectory('.').then(files => console.log(files)).catch(console.error);
+```
+
+#### 3. Node.js (Работа с объектами): 
 Напишите функцию, которая принимает объект с данными о человеке (имя, возраст, пол) и возвращает строку с форматированным выводом этих данных.
 ```node.js
 function formatPerson(person) {
@@ -150,7 +163,7 @@ const person = { name: "Иван", age: 25, gender: "мужчина" };
 console.log(formatPerson(person)); // Пример вывода: "Иван, 25 лет, мужчина"
 ```
 
-#### 3. Node.js (Чтение и запись файлов):
+#### 4. Node.js (Чтение и запись файлов):
 Тебе нужно прочитать данные из файла file1.txt, после прочтения полученные данные надо записать в файл file2.txt. Реализовать это надо 3 разными способами, для каждого способа своя функция: 
 - readAndWriteCallbackHell() - в данной функции ты должен использовать только передачу коллбека в ассинхронную функцию. 
 - readAndWritePromises() - в данной функции ты должен использовать промисы и then. 
@@ -165,7 +178,7 @@ const readAndWritePromises = () => {};
 const readAndWriteAsyncAwait = async () => {};
 ```
 
-#### 4. Node.js (Удаление дубликатов из массива):
+#### 5. Node.js (Удаление дубликатов из массива):
 Вам нужно написать функцию, которая принимает в качестве аргумента массив чисел и удаляет все повторяющиеся значения.
 Напишите функцию двумя разными спомобами:
 1. Используя два массива, без использования стандартных функций JS.
@@ -177,19 +190,6 @@ function removeRepsTwo(array) {}
 
 removeRepsOne([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
 removeRepsTwo([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
-```
-
-#### 5. Node.js (Получение всех файлов из текущей директории):
-Напишите асинхронную функцию, которая получает список всех файлов и папок в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
-```node.js
-const fs = require('fs').promises;
-const path = require('path');
-
-async function getFilesInDirectory(dirPath) {
-    // Ваш код
-}
-
-getFilesInDirectory('.').then(files => console.log(files)).catch(console.error);
 ```
 
 
