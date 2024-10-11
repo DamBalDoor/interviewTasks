@@ -143,7 +143,6 @@ countLines('file.txt').then(console.log);
 Напишите асинхронную функцию, которая получает список всех файлов и папок в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
 ```node.js
 const fs = require('fs').promises;
-const path = require('path');
 
 async function getFilesInDirectory(dirPath) {
     // Ваш код
