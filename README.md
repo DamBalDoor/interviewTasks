@@ -178,6 +178,18 @@ removeRepsOne([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
 removeRepsTwo([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
 ```
 
+#### 5. Node.js (Получение всех файлов из текущей директории):
+Напишите асинхронную функцию, которая получает список всех файлов в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
+```node.js
+const fs = require('fs').promises;
+const path = require('path');
+
+async function getFilesInDirectory(dirPath) {
+    // Ваш код
+}
+
+getFilesInDirectory('.').then(files => console.log(files)).catch(console.error);
+```
 
 
 ### Средний:
