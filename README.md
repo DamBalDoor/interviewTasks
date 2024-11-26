@@ -187,8 +187,8 @@ function removeRepsOne(array) {}
 
 function removeRepsTwo(array) {}
 
-removeRepsOne([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
-removeRepsTwo([1, 1, 2, 4, 5, 6, 6, 8, 9, 11]); // [1,2,4,5,6,8,9,11]
+console.log(removeRepsOne([1, 1, 2, 4, 5, 6, 6, 8, 9, 11])); // [1,2,4,5,6,8,9,11]
+console.log(removeRepsTwo([1, 1, 2, 4, 5, 6, 6, 8, 9, 11])); // [1,2,4,5,6,8,9,11]
 ```
 
 
