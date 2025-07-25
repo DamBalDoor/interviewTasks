@@ -79,23 +79,12 @@ npm расшифровывается как Node Package Manager. Вот две 
 
 ### Лёгкий:
 
-#### 1. Node.js (Работа с объектами): 
-Напишите функцию, которая принимает объект с данными о человеке (имя, возраст, пол) и возвращает строку с форматированным выводом этих данных.
-```node.js
-function formatPerson(person) {
-    // Ваш код
-}
-
-const person = { name: "Иван", age: 25, gender: "мужчина" };
-console.log(formatPerson(person)); // Пример вывода: "Иван, 25 лет, мужчина"
-```
-
-#### 2. Node.js (Удаление дубликатов из массива):
+#### 1. Node.js (Удаление дубликатов из массива):
 Вам нужно написать функцию, которая принимает в качестве аргумента массив чисел и удаляет все повторяющиеся значения.
 Напишите функцию двумя разными спомобами:
 1. Используя циклы, без использования стандартных функций JS (includes, filter, sort и т.д.).
 2. Используя любые средства JS
-```node.js
+```js
 function removeRepsOne(array) {}
 
 function removeRepsTwo(array) {}
@@ -104,7 +93,31 @@ console.log(removeRepsOne([1, 1, 2, 4, 5, 6, 6, 8, 9, 11])); // [1,2,4,5,6,8,9,1
 console.log(removeRepsTwo([1, 1, 2, 4, 5, 6, 6, 8, 9, 11])); // [1,2,4,5,6,8,9,11]
 ```
 
-#### 3. Node.js (Фильтрация данных):
+##### Референсное решение
+```js
+function removeRepsOne(array) {
+    const result = [];
+    for (let i = 0; i < array.length; i++) {
+        let isDuplicate = false;
+        for (let j = 0; j < result.length; j++) {
+            if (array[i] === result[j]) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (!isDuplicate) {
+            result[result.length] = array[i];
+        }
+    }
+    return result;
+}
+
+function removeRepsTwo(array) {
+    return [...new Set(array)];
+}
+```
+
+#### ✅ 2. Node.js (Фильтрация данных):
 Тебе необходимо реализовать стрелочную функцию, для фильтрации массива с данными о сотрудниках компаний. <br>
 На выходе функция должна вернуть отфильтрованный массив. В отфильтрованном массиве должны быть сотрудники, подходящие под следующие условия:
 - Сотрудник старше 25 лет
@@ -147,10 +160,20 @@ console.log(filterPerson(arr))
 
 ```
 
+##### Референсное решение
+```js
+const filterPerson = (arr) =>
+  arr.filter(person =>
+    person.age > 25 &&
+    person.company.name !== "Google" &&
+    person.company.experience > 5
+  );
+
+```
 
 ### Средний:
 
-#### 1. Node.js (Асинхронная обработка нескольких API-запросов)
+#### ✅ 1. Node.js (Асинхронная обработка нескольких API-запросов)
 Напишите функцию, которая принимает массив URL-ов и делает параллельные HTTP-запросы к каждому URL, используя `axios`. Возвращайте массив результатов запросов, но если один из запросов завершился неудачей, продолжайте выполнение остальных.
 ```node.js
 const axios = require('axios');
@@ -163,34 +186,25 @@ const urls = ['https://api1.com', 'https://api2.com'];
 fetchAll(urls).then(console.log);
 ```
 
-#### 2. Node.js (Асинхронная работа с файлами):
-Напишите асинхронную функцию, которая получает список всех файлов и папок в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
-```node.js
-const fs = require('fs').promises;
+##### Референсное решение
+```js
+const axios = require('axios');
 
-async function getFilesInDirectory(dirPath) {
-    // Ваш код
+async function fetchAll(urls) {
+    const requests = urls.map(url => axios.get(url));
+    const results = await Promise.allSettled(requests);
+
+    return results.map(result => {
+        if (result.status === 'fulfilled') {
+            return result.value.data; // или просто result.value, если нужен весь объект ответа
+        } else {
+            return { error: true, message: result.reason.message };
+        }
+    });
 }
-
-getFilesInDirectory('.').then(files => console.log(files)).catch(console.error);
 ```
 
-#### 3. Node.js (Чтение и запись файлов):
-Тебе нужно прочитать данные из файла file1.txt, после прочтения полученные данные надо записать в файл file2.txt. Реализовать это надо 3 разными способами, для каждого способа своя функция:
-- readAndWriteCallbackHell() - в данной функции ты должен использовать только передачу коллбека в ассинхронную функцию.
-- readAndWritePromises() - в данной функции ты должен использовать промисы и then.
-- readAndWriteAsyncAwait() - в данной функции можно использовать async await.
-```node.js
-const fs = require("fs");
-
-const readAndWriteCallbackHell = () => {};
-
-const readAndWritePromises = () => {};
-
-const readAndWriteAsyncAwait = async () => {};
-```
-
-#### 4. Node.js (Работа с массивами и объектами): 
+#### 2. Node.js (Работа с массивами и объектами): 
 Напишите функцию, которая принимает массив объектов (товары с полями `name` и `price`) и возвращает новый массив, где каждому товару добавлено новое поле `discountedPrice` с ценой, уменьшенной на 10%.
 ```node.js
 function applyDiscount(products) {
@@ -205,6 +219,17 @@ console.log(applyDiscount(products));
 
 ```
 
+##### Референсное решение
+
+```js
+function applyDiscount(products) {
+    return products.map(product => ({
+        ...product,
+        discountedPrice: product.price * 0.9
+    }));
+}
+```
+
 #### 5. Node.js (Модификация строк и объектов):
 Напишите функцию, которая принимает строку с JSON и удаляет все ключи, значения которых являются пустыми строками, `null`, `undefined` или `NaN`. Верните модифицированный объект.
 ```node.js
@@ -215,7 +240,26 @@ function cleanObject(jsonStr) {
 const jsonStr = '{"name":"Иван", "age": null, "email":"", "phone": "12345"}';
 console.log(cleanObject(jsonStr)); // Пример вывода: { name: 'Иван', phone: '12345' }
 ```
+```js
+function cleanObject(jsonStr) {
+    const obj = JSON.parse(jsonStr);
+    const cleaned = {};
 
+    for (const key in obj) {
+        const value = obj[key];
+        if (
+            value !== '' &&
+            value !== null &&
+            value !== undefined &&
+            !(typeof value === 'number' && isNaN(value))
+        ) {
+            cleaned[key] = value;
+        }
+    }
+
+    return cleaned;
+}
+```
 
 
 ### Сложный:
@@ -241,6 +285,49 @@ const queue = new TaskQueue();
 queue.addTask(() => /* Ваша задача */);
 ```
 
+##### Референсное решение
+```js
+const EventEmitter = require('events');
+
+class TaskQueue extends EventEmitter {
+    constructor() {
+        super();
+        this.queue = [];
+        this.activeCount = 0;
+        this.maxConcurrency = 2;
+
+        this.on('taskDone', () => {
+            this.activeCount--;
+            this.processNext();
+        });
+    }
+
+    addTask(task) {
+        this.queue.push(task);
+        // Запускаем обработку очереди, если есть свободные слоты
+        this.processNext();
+    }
+
+    processNext() {
+        while (this.activeCount < this.maxConcurrency && this.queue.length > 0) {
+            const task = this.queue.shift();
+            this.activeCount++;
+
+            // Запускаем задачу асинхронно с setTimeout для имитации async
+            setTimeout(async () => {
+                try {
+                    await task();
+                } catch (e) {
+                    // Обработка ошибок в задаче, если нужна
+                    this.emit('taskError', e);
+                }
+                this.emit('taskDone');
+            }, 0);
+        }
+    }
+}
+```
+
 
 #### 2. Node.js (Регулярные выражения - "Проверка формата строки и извлечение данных"):
 Тебе нужно написать функцию на JavaScript, которая принимает строку и проверяет, соответствует ли она определенному формату. Если строка соответствует формату, функция должна вернуть объект с извлеченными данными, иначе — null.
@@ -263,8 +350,26 @@ console.log(parseTransaction(str));
 */ 
 ```
 
+##### Референсное решение
 
-#### 3. Node.js (Банкомат):
+```js
+function parseTransaction(str) {
+    const regex = /^Дата:\s(\d{4}-\d{2}-\d{2})\sЗаказ:\s(\S+)\sСумма:\s(\d+)\sрублей\sПримечание:\s(.+)$/;
+
+    const match = str.match(regex);
+    if (!match) return null;
+
+    return {
+        date: match[1],
+        order: match[2],
+        amount: Number(match[3]),
+        note: match[4]
+    };
+}
+
+```
+
+#### ✅ 3. Node.js (Банкомат):
 Создайте функцию, которая имитирует базовое функционирование банкомата. Функция должна принимать сумму и возвращать объект с распределением купюр в формате: {номинал_купюры: количество_купюр}.<br>
 Требования к функции:
 - Если запрошенная сумма не может быть выдана банкоматом, функция должна возвращать ошибку 'Недопустимая сумма'.
@@ -281,6 +386,32 @@ cashMachine(2570); // Недопустимая сумма
 cashMachine(100050); // Превышен лимит купюр
 ```
 
+```js
+function cashMachine(amount) {
+  const denominations = [5000, 2000, 1000, 500, 200, 100, 50];
+  const result = {};
+  let totalNotes = 0;
+
+  for (const denom of denominations) {
+    const count = Math.floor(amount / denom);
+    if (count > 0) {
+      result[denom] = count;
+      amount -= denom * count;
+      totalNotes += count;
+    }
+  }
+
+  if (amount !== 0) {
+    return 'Недопустимая сумма';
+  }
+
+  if (totalNotes > 20) {
+    return 'Превышен лимит купюр';
+  }
+
+  return result;
+}
+```
 
 
 
