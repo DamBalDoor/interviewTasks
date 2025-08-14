@@ -165,6 +165,7 @@ fetchAll(urls).then(console.log);
 
 #### 2. Node.js (Асинхронная работа с файлами):
 Напишите асинхронную функцию, которая получает список всех файлов и папок в текущей директории и возвращает их имена. Используйте `fs.promises` для работы с файловой системой.
+
 ```node.js
 const fs = require('fs').promises;
 
@@ -276,9 +277,9 @@ function cashMachine(amount) {
   const denominations = [5000, 2000, 1000, 500, 200, 100, 50];
 }
 
-cashMachine(8350); // {5000: 1, 2000: 1, 1000: 1, 200: 1, 100: 1, 50: 1}
-cashMachine(2570); // Недопустимая сумма
-cashMachine(100050); // Превышен лимит купюр
+console.log(cashMachine(8350)); // {5000: 1, 2000: 1, 1000: 1, 200: 1, 100: 1, 50: 1}
+console.log(cashMachine(2570)); // Недопустимая сумма
+console.log(cashMachine(100050)); // Превышен лимит купюр
 ```
 
 
